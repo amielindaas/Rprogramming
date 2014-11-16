@@ -15,4 +15,18 @@ corr <- function(directory, threshold = 0) {
   ## nitrate and sulfate; the default is 0
   
   ## Return a numeric vector of correlations
+  id <- 1:332
+  count <- 0
+  vector <- vector()
+  fileloc <- paste(directory, "/", sprintf("%03d", id), ".csv", sep = "")
+  thisdata <- read.csv(thisfile)
+  for (thisfile in fileloc){
+    thisdata <- read.csv(thisfile)
+    thisnobs <- sum(complete.cases(thisdata))
+    if (thisnobs < threshold)  {next}
+    count <- count + 1
+    thisdata <- thisdata[complete.cases(thisdata),]
+    vector[count] <- cor(thisdata$sulfate, thisdata$nitrate)
+    }
+  return(vector) 
 }
