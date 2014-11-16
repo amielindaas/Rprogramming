@@ -19,4 +19,16 @@ complete <- function(directory, id = 1:332) {
   ## ...
   ## where 'id' is the monitor ID number and 'nobs' is the
   ## number of complete cases
+  data2 <- data.frame(id = integer(0), nobs = numeric(0))
+  fileloc <- paste(directory, "/", sprintf("%03d", id), ".csv", sep = "")
+  for (thisfile in fileloc){
+    thisdata <- read.csv(thisfile)
+    thisid <- thisdata[1,4]
+    thisnobs <- sum(complete.cases(thisdata))
+    thisrow <- data.frame(id = thisid, nobs = thisnobs)
+    data2 <- rbind(data2, thisrow)
+  } 
+  return(data2)
+  
+  print(fileloc)
 }
